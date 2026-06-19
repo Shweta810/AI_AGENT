@@ -16,7 +16,7 @@ llm = ChatGoogleGenerativeAI(
     temperature=0.3
 )
 
-# 2. Define your Rules via System Prompt
+
 SYSTEM_PROMPT = """
 You are an expert AI assistant similar to ChatGPT.
 
@@ -79,7 +79,7 @@ Always answer exactly what the user asks.
 If code is requested, ALWAYS provide code.
 """
 
-# 3. Create the Agent with Memory Support
+
 agent = create_agent(
     model=llm,
     tools=[search_tool, wiki_tool, save_tool],
@@ -87,26 +87,26 @@ agent = create_agent(
     checkpointer=InMemorySaver()  # Retains conversation memory
 )
 
-# 4. Session configuration (Required for checkpointer memory tracking)
+
 config = {"configurable": {"thread_id": "agent_session_1"}}
 
 print("AI Agent Initialized successfully! Type 'exit', 'quit', or 'bye' to stop.\n")
 
-# 5. Continuous Chat Loop
+
 while True:
     try:
         query = input("What can I help you with? ")
 
-        # Clean check for exit commands
+       
         if query.strip().lower() in ["exit", "quit", "bye"]:
             print("\nGoodbye!")
             break
 
-        # Ignore empty accidental presses
+        
         if not query.strip():
             continue
 
-        # Pass user input to the agent
+       
         response = agent.invoke(
             {"messages": [HumanMessage(content=query)]},
             config=config
@@ -116,11 +116,11 @@ while True:
         print("FINAL ANSWER")
         print("=" * 80 + "\n")
 
-        # Safely extract response messages
+       
         final_msg = response["messages"][-1]
         content = final_msg.content
 
-        # Handle formatting seamlessly (Converts raw dict lists into readable string text)
+       
         if isinstance(content, str):
             final_answer = content
         elif isinstance(content, list):
@@ -134,12 +134,12 @@ while True:
         else:
             final_answer = str(content)
 
-        # Print out your clean layout
+      
         print(final_answer.strip())
         print("\n" + "-" * 80 + "\n")
 
     except KeyboardInterrupt:
-        # Catch Ctrl+C gracefully
+      
         print("\n\nSession closed by user. Goodbye!")
         break
     except Exception as e:
