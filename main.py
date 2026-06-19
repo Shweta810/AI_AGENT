@@ -5,12 +5,12 @@ from langchain.agents import create_agent
 from langgraph.checkpoint.memory import InMemorySaver
 from langchain_core.messages import HumanMessage
 
-# Import your custom tools
+
 from tools import search_tool, wiki_tool, save_tool
 
 load_dotenv()
 
-# 1. Initialize the Gemini Model
+
 llm = ChatGoogleGenerativeAI(
     model="gemini-2.5-flash",
     temperature=0.3
